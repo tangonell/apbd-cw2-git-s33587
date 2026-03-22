@@ -21,7 +21,7 @@ public class RentalService
     }
     
     public ReadOnlyCollection<Rental> GetAllRentals() => _rentals.AsReadOnly();
-    public Rental? GetById(int id) => _rentals.FirstOrDefault(r => r.User.Id == id);
+    public Rental? GetById(int id) => _rentals.FirstOrDefault(r => r.Id == id);
     public IEnumerable<Rental> GetActiveRentals() => _rentals.Where(r => r.IsActive);
     public IEnumerable<Rental> GetActiveRentalsForUser(int userId) => _rentals
         .Where(r => r.IsActive && r.User.Id == userId);
