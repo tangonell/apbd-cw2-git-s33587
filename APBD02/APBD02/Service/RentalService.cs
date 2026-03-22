@@ -62,6 +62,8 @@ public class RentalService
         rental.Equipment.SetStatus(EquipmentStatus.Available);
         return rental.Penalty * rental.DaysOverdue;
     }
+    
+    public ReadOnlyCollection<Rental> GetAll() => _rentals.AsReadOnly();
 
     private Result<Equipment, string> GetEquipmentById(int equipmentId)
     {

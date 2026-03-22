@@ -19,4 +19,6 @@ public class UserService
     }
     
     public User? GetById(int id) => _users.FirstOrDefault(user => user.Id == id);
+    
+    public ReadOnlyCollection<User> GetAll() => _users.AsReadOnly();
 }

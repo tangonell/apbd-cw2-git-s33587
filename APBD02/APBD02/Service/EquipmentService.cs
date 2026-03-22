@@ -1,3 +1,5 @@
+using System.Collections.ObjectModel;
+
 namespace APBD02.Service;
 
 using Domain.Equipment;
@@ -21,4 +23,6 @@ public class EquipmentService
     public Equipment? GetById(int id) => _equipment.FirstOrDefault(e => e.Id == id);
 
     public IEnumerable<Equipment> GetAvailable() => _equipment.Where(e => e.IsRentable);
+    
+    public ReadOnlyCollection<Equipment> GetAll() => _equipment.AsReadOnly();
 }
