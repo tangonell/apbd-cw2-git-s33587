@@ -27,7 +27,7 @@ public class RentalService
         .Where(r => r.IsActive && r.User.Id == userId);
     public IEnumerable<Rental> GetOverdueRentals() => _rentals.Where(r => r.DaysOverdue > 0);
 
-    public Result<Rental, string> RentEquipment(int userId, int equipmentId, int rentalDays)
+    public Result<Rental, string> RentEquipment(int userId, int equipmentId, DateTime rentalDate, int rentalDays)
     {
         var equipmentResult = GetEquipmentById(equipmentId);
         if (equipmentResult is Result<Equipment, string>.Err equipemtnErr) return equipemtnErr.Error;
@@ -44,7 +44,7 @@ public class RentalService
         var rental = new Rental(
             _nextId++,
             user, equipment,
-            DateTime.Now, DateTime.Now.AddDays(rentalDays),
+            rentalDate, rentalDate.AddDays(rentalDays),
             RentalConfig.RentalPenalty
         );
         _rentals.Add(rental);
@@ -55,12 +55,13 @@ public class RentalService
     }
     
     // this method returns the calculated penalty
-    public Result<decimal, string> ReturnEquipment(int rentalId)
+    public Result<decimal, string> ReturnEquipment(int rentalId, DateTime returnDate)
     {
         var rentalResult = GetRentalById(rentalId);
         if (rentalResult is Result<Rental, string>.Err rentalErr) return rentalErr.Error;
         var rental = rentalResult.Unwrap();
         
+        rental.Return(returnDate);
         rental.Equipment.SetStatus(EquipmentStatus.Available);
         return rental.Penalty * rental.DaysOverdue;
     }
