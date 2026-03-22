@@ -7,6 +7,8 @@ public abstract record Result<T, E>
     public sealed record Ok(T Value) : Result<T, E>;
     public sealed record Err(E Error) : Result<T, E>;
 
+    public static implicit operator Result<T, E>(T value) => new Ok(value);
+    public static implicit operator Result<T, E>(E error) => new Err(error);
 
     public T Expect(string msg) => this switch
     {
@@ -34,4 +36,6 @@ public abstract record Result<E>
 {
     public sealed record Ok : Result<E>;
     public sealed record Err(E Error) : Result<E>;
+    
+    public static implicit operator Result<E>(E error) => new Err(error);
 }
