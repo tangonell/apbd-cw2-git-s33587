@@ -8,7 +8,7 @@ public class UserService
     private readonly List<User> _users = [];
     private int _nextId = 1;
 
-    public T addUser<T>(Func<int, T> userFactory)
+    public T AddUser<T>(Func<int, T> userFactory)
         where T : User
     {
         var user = userFactory(_nextId);
