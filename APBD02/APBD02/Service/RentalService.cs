@@ -63,6 +63,7 @@ public class RentalService
         
         rental.Return(returnDate);
         rental.Equipment.SetStatus(EquipmentStatus.Available);
+        _rentals.Remove(rental);
         return rental.Penalty * rental.DaysOverdue;
     }
     
