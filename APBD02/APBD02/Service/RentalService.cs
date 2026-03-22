@@ -48,6 +48,8 @@ public class RentalService
             RentalConfig.RentalPenalty
         );
         _rentals.Add(rental);
+        
+        equipment.SetStatus(EquipmentStatus.Rented);
 
         return rental;
     }
